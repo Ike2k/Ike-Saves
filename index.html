@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ike Saves</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #11162a;
+      --muted: #7f8ab9;
+      --text: #e8ebff;
+      --brand: #7c5cff;
+      --brand-2: #39d98a;
+      --danger: #ff5b5b;
+      --ring: rgba(124,92,255,.45);
+      --shadow: 0 10px 30px rgba(0,0,0,.35), 0 2px 12px rgba(17,22,42,.6);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 85% -10%, rgba(124,92,255,.15), transparent 60%),
+                  radial-gradient(1000px 600px at -10% 10%, rgba(57,217,138,.12), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height:1.45
+    }
+    .container{max-width:1100px;margin:0 auto;padding:28px}
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px
+    }
+    .logo{
+      display:flex;align-items:center;gap:12px
+    }
+    .logo .mark{
+      width:40px;height:40px;border-radius:12px;
+      background: conic-gradient(from 210deg at 40% 40%, var(--brand), #9b7dff, #69e6a6 70%);
+      box-shadow: var(--shadow)
+    }
+    h1{font-size:clamp(22px,2.6vw,28px);margin:0;font-weight:700}
+    .sub{color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .col-4{grid-column: span 4}
+    .col-6{grid-column: span 6}
+    .col-8{grid-column: span 8}
+    .col-12{grid-column: span 12}
+    @media (max-width: 920px){
+      .col-4,.col-6,.col-8{grid-column: span 12}
+    }
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.0));
+      border:1px solid rgba(124,92,255,.15);
+      border-radius:var(--radius); padding:18px 18px 16px; box-shadow:var(--shadow)}
+    .card h2{margin:0 0 12px;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input[type="text"],input[type="number"],input[type="email"],input[type="password"],select{
+      width:100%;
+      background: #0d1326;
+      color:var(--text);
+      border:1px solid rgba(124,92,255,.25);
+      border-radius:12px; padding:12px 14px; outline:none;
+      transition: box-shadow .15s, border-color .15s
+    }
+    input:focus,select:focus{border-color:var(--brand); box-shadow:0 0 0 4px var(--ring)}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      background: linear-gradient(135deg,var(--brand),#9b7dff);
+      color:#fff;border:none;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;
+      transition: transform .08s ease, filter .2s ease; text-decoration:none
+    }
+    .btn:hover{filter:brightness(1.05)}
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{background: linear-gradient(135deg,#2b3358,#1b2142);border:1px solid rgba(124,92,255,.3)}
+    .btn.danger{background: linear-gradient(135deg,#ff6b6b,#ff4d4d)}
+    .btn.ghost{background: transparent; border:1px dashed rgba(124,92,255,.35)}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;background:rgba(124,92,255,.14);border:1px solid rgba(124,92,255,.25);color:#eae7ff}
+    .muted{color:var(--muted)}
+    table{width:100%;border-collapse:collapse;margin-top:8px;border-radius:12px;overflow:hidden}
+    th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(124,92,255,.2)}
+    th{font-weight:600;color:#cfd5ff;background: rgba(124,92,255,.08)}
+    .right{text-align:right}
+    .hint{font-size:12px;color:var(--muted)}
+    .success{color:#54e1a6}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(124,92,255,.35),transparent);margin:8px 0 14px}
+    .banner{background: linear-gradient(135deg, rgba(57,217,138,.25), rgba(124,92,255,.25));
+      border:1px solid rgba(124,92,255,.3); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px}
+    .footer{margin:28px 0;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>Ike Saves</h1>
+          <div class="sub">Track earnings • auto‑split savings • hit goals faster</div>
+        </div>
+      </div>
+      <div id="userBadge" class="pill hidden"></div>
+    </header>
+
+    <div id="goalPrompt" class="banner">
+      <div class="row">
+        <div style="flex:1 1 260px">
+          <label for="initialGoal">Do you have a savings goal? (optional)</label>
+          <input type="number" id="initialGoal" min="1" step="0.01" placeholder="e.g., 2500" />
+          <div class="hint">We'll use this for the goal projection.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-end">
+          <button class="btn secondary" id="saveGoalBtn">Save goal</button>
+          <button class="btn ghost" id="skipGoalBtn">Skip</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="card col-4" id="authCard">
+        <h2>Account</h2>
+        <div class="divider"></div>
+
+        <div id="registerBox">
+          <div class="row">
+            <div style="flex:1 1 100%">
+              <label for="name">Name</label>
+              <input id="name" type="text" placeholder="Your name" />
+            </div>
+            <div style="flex:1 1 100%">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@example.com" />
+            </div>
+            <div style="flex:1 1 100%">
+              <label for="password">Password</label>
+              <input id="password" type="password" placeholder="••••••••" />
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="registerBtn">Create account</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="loginBox">
+          <div class="row">
+            <div style="flex:1 1 100%">
+              <label for="loginEmail">Login email</label>
+              <input id="loginEmail" type="email" placeholder="you@example.com" />
+            </div>
+            <div style="flex:1 1 100%">
+              <label for="loginPassword">Password</label>
+              <input id="loginPassword" type="password" placeholder="••••••••" />
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn secondary" id="loginBtn">Log in</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card col-8" id="earningsCard">
+        <h2>1) Calculate earnings</h2>
+        <div class="divider"></div>
+        <div class="row">
+          <div style="flex:1 1 180px">
+            <label for="hours">Hours worked</label>
+            <input id="hours" type="number" min="0" step="0.01" placeholder="e.g., 40" />
+          </div>
+          <div style="flex:1 1 180px">
+            <label for="rate">Hourly rate ($)</label>
+            <input id="rate" type="number" min="0" step="0.01" placeholder="e.g., 20" />
+          </div>
+          <div style="align-self:flex-end">
+            <button class="btn" id="calcEarningsBtn">Calculate</button>
+          </div>
+        </div>
+        <div id="earningsResult" style="margin-top:10px"></div>
+      </section>
+
+      <section class="card col-6" id="savingsCard">
+        <h2>2) Choose savings %</h2>
+        <div class="divider"></div>
+        <div class="row">
+          <div style="flex:1 1 200px">
+            <label for="savePct">Savings percentage</label>
+            <input id="savePct" type="number" min="1" max="100" step="1" placeholder="e.g., 30" />
+            <div class="hint">We'll set this aside from your net earnings.</div>
+          </div>
+          <div style="align-self:flex-end">
+            <button class="btn" id="calcSavingsBtn">Set aside</button>
+          </div>
+        </div>
+        <div id="savingsResult" style="margin-top:10px"></div>
+      </section>
+
+      <section class="card col-6" id="splitCard">
+        <h2>3) Auto‑split savings into accounts</h2>
+        <div class="divider"></div>
+        <div class="row">
+          <div style="flex:1 1 120px">
+            <label for="numAccounts"># of accounts</label>
+            <input id="numAccounts" type="number" min="1" max="10" value="3" />
+          </div>
+          <div style="flex:1 1 160px">
+            <label for="allocationMode">Allocation mode</label>
+            <select id="allocationMode">
+              <option value="equal">Equal split (auto)</option>
+              <option value="percent">Custom % (manual)</option>
+            </select>
+          </div>
+          <div style="align-self:flex-end">
+            <button class="btn secondary" id="buildAccountsBtn">Build fields</button>
+          </div>
+        </div>
+
+        <div id="accountsBox" style="margin-top:10px"></div>
+
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="autoDistributeBtn">Auto‑distribute</button>
+          <button class="btn ghost" id="normalizeBtn">Normalize to 100%</button>
+        </div>
+
+        <div id="splitResult" style="margin-top:10px"></div>
+      </section>
+
+      <section class="card col-12" id="goalCard">
+        <h2>4) Goal projection</h2>
+        <div class="divider"></div>
+        <div class="row">
+          <div style="flex:1 1 220px">
+            <label for="goalAmount">Savings goal ($)</label>
+            <input id="goalAmount" type="number" min="1" step="0.01" placeholder="e.g., 2500" />
+          </div>
+          <div style="align-self:flex-end">
+            <button class="btn" id="projectBtn">Project timeline</button>
+          </div>
+        </div>
+        <div id="goalResult" style="margin-top:10px"></div>
+      </section>
+
+      <section class="card col-12">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div class="muted">This device only • data lives in your browser (localStorage).</div>
+          <button class="btn danger" id="clearBtn">Clear saved data</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      <div>© <span id="year"></span> Ike Saves</div>
+      <a class="muted" href="./Contact.html">Contact</a>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+    const store = {
+      get(key, def=undefined){ try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch(_) { return def; } },
+      set(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+    };
+    const KEYS = {
+      users: 'ikeSaves_users',
+      session: 'ikeSaves_session',
+      earnings: (email) => `ikeSaves_earnings_${email}`,
+      savings: (email) => `ikeSaves_savings_${email}`,
+      split:   (email) => `ikeSaves_split_${email}`,
+      goal:    (email) => `ikeSaves_goal_${email}`
+    };
+    let currentUser = null;
+    let netEarnings = 0;
+    let savingsAmount = 0;
+    function setBadge(){
+      const badge = $('userBadge');
+      if(currentUser){
+        badge.textContent = `Signed in as ${currentUser.name}`;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+    $('saveGoalBtn').addEventListener('click', () => {
+      const val = parseFloat($('initialGoal').value);
+      if(!currentUser){ alert('Please create an account or log in first.'); return; }
+      if(isNaN(val) || val<=0){ alert('Enter a valid goal amount.'); return; }
+      store.set(KEYS.goal(currentUser.email), {goal:val});
+      $('goalAmount').value = String(val);
+      $('goalPrompt').classList.add('hidden');
+    });
+    $('skipGoalBtn').addEventListener('click', () => $('goalPrompt').classList.add('hidden'));
+    function registerUser(){
+      const name = $('name').value.trim();
+      const email = $('email').value.trim().toLowerCase();
+      const password = $('password').value.trim();
+      if(!name || !email || !password){ alert('Please fill out all fields.'); return; }
+      const users = store.get(KEYS.users, []);
+      if(users.find(u => u.email === email)){ alert('Account exists. Please log in.'); return; }
+      users.push({name,email,password});
+      store.set(KEYS.users, users);
+      alert('Account created! You can now log in.');
+      $('name').value = $('email').value = $('password').value = '';
+    }
+    function loginUser(){
+      const email = $('loginEmail').value.trim().toLowerCase();
+      const password = $('loginPassword').value.trim();
+      const users = store.get(KEYS.users, []);
+      const user = users.find(u => u.email===email && u.password===password);
+      if(!user){ alert('Invalid email or password.'); return; }
+      currentUser = {name:user.name, email:user.email};
+      store.set(KEYS.session, {email: currentUser.email});
+      $('authCard').classList.add('hidden');
+      setBadge();
+      hydrateFromStorage();
+      alert(`Welcome back, ${currentUser.name}!`);
+    }
+    $('registerBtn').addEventListener('click', registerUser);
+    $('loginBtn').addEventListener('click', loginUser);
+    (function initSession(){
+      const sess = store.get(KEYS.session);
+      if(sess){
+        const users = store.get(KEYS.users, []);
+        const user = users.find(u=>u.email===sess.email);
+        if(user){
+          currentUser = {name:user.name, email:user.email};
+          $('authCard').classList.add('hidden');
+          setBadge();
+          hydrateFromStorage();
+        }
+      }
+      $('year').textContent = new Date().getFullYear();
+    })();
+    $('calcEarningsBtn').addEventListener('click', () => {
+      if(!currentUser){ alert('Please log in first.'); return; }
+      const hours = parseFloat($('hours').value);
+      const rate  = parseFloat($('rate').value);
+      if(isNaN(hours) || isNaN(rate) || hours<=0 || rate<=0){ alert('Enter valid positive values.'); return; }
+      const R = { federal: 8.58, ss: 6.2, medicare: 1.45, ett: 0.9, ca: 1.0 };
+      const gross = hours * rate;
+      const federal = gross * R.federal/100;
+      const ss = gross * R.ss/100;
+      const medicare = gross * R.medicare/100;
+      const ett = gross * R.ett/100;
+      const ca = gross * R.ca/100;
+      netEarnings = gross - federal - ss - medicare - ett - ca;
+      store.set(KEYS.earnings(currentUser.email), {hours, rate, gross, federal, ss, medicare, ett, ca, netEarnings});
+      $('earningsResult').innerHTML = `
+        <table>
+          <tr><th>Earnings</th><th class="right">Amount ($)</th></tr>
+          <tr><td>Gross</td><td class="right">${fmt(gross)}</td></tr>
+          <tr><td>Federal (${R.federal}%)</td><td class="right">-${fmt(federal)}</td></tr>
+          <tr><td>Social Security (${R.ss}%)</td><td class="right">-${fmt(ss)}</td></tr>
+          <tr><td>Medicare (${R.medicare}%)</td><td class="right">-${fmt(medicare)}</td></tr>
+          <tr><td>ETT (${R.ett}%)</td><td class="right">-${fmt(ett)}</td></tr>
+          <tr><td>CA Income Tax (${R.ca}%)</td><td class="right">-${fmt(ca)}</td></tr>
+          <tr><th>Net</th><th class="right">${fmt(netEarnings)}</th></tr>
+        </table>`;
+    });
+    $('calcSavingsBtn').addEventListener('click', () => {
+      if(!currentUser){ alert('Please log in first.'); return; }
+      const pct = parseFloat($('savePct').value);
+      if(isNaN(pct) || pct<=0 || pct>100){ alert('Enter a valid percentage (1–100).'); return; }
+      if(netEarnings<=0){ alert('Calculate earnings first.'); return; }
+      savingsAmount = netEarnings * pct/100;
+      const remaining = netEarnings - savingsAmount;
+      store.set(KEYS.savings(currentUser.email), {pct, savingsAmount, remaining});
+      $('savingsResult').innerHTML = `
+        <table>
+          <tr><th>Item</th><th class="right">Amount ($)</th></tr>
+          <tr><td>Saved (${pct}%)</td><td class="right success">${fmt(savingsAmount)}</td></tr>
+          <tr><td>Remaining</td><td class="right">${fmt(remaining)}</td></tr>
+        </table>`;
+    });
+    $('buildAccountsBtn').addEventListener('click', buildAccountFields);
+    $('autoDistributeBtn').addEventListener('click', autoDistribute);
+    $('normalizeBtn').addEventListener('click', normalizePercents);
+    function buildAccountFields(){
+      if(!currentUser){ alert('Please log in first.'); return; }
+      const n = Math.max(1, Math.min(10, parseInt($('numAccounts').value||'0')));
+      const mode = $('allocationMode').value;
+      const box = $('accountsBox');
+      box.innerHTML = '';
+      const saved = store.get(KEYS.split(currentUser.email));
+      for(let i=0;i<n;i++){
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.style.marginTop = '8px';
+        const nameId = `acc_name_${i}`;
+        const pctId  = `acc_pct_${i}`;
+        const lockId = `acc_lock_${i}`;
+        const nameVal = saved?.accounts?.[i]?.name || defaultName(i);
+        const pctVal = saved?.accounts?.[i]?.pct ?? (mode==='equal' ? (100/n) : '');
+        row.innerHTML = `
+          <div style="flex:1 1 220px">
+            <label for="${nameId}">Account ${i+1} name</label>
+            <input id="${nameId}" type="text" value="${nameVal}" placeholder="e.g., Emergency Fund" />
+          </div>
+          <div style="width:130px">
+            <label for="${pctId}%">% share</label>
+            <input id="${pctId}" type="number" min="0" max="100" step="0.01" value="${mode==='equal' ? (100/n).toFixed(2) : (pctVal||'')}" />
+          </div>
+          <div style="width:140px; align-self:flex-end">
+            <label><input id="${lockId}" type="checkbox" /> Lock %</label>
+          </div>
+        `;
+        box.appendChild(row);
+      }
+      const total = document.createElement('div');
+      total.style.marginTop = '10px';
+      total.innerHTML = `<span class="muted">Tip: Use <strong>Auto‑distribute</strong> for equal split, or lock specific accounts then auto‑distribute the rest.</span>`;
+      box.appendChild(total);
+      saveSplitConfig();
+    }
+    function defaultName(i){
+      const presets = ['Emergency','Investing','Big Purchase','Vacation','Giving','Education'];
+      return presets[i] || `Account ${i+1}`;
+    }
+    function readAccounts(){
+      const box = $('accountsBox');
+      const rows = box.querySelectorAll('.row');
+      const accounts = [];
+      rows.forEach((row) => {
+        const name = row.querySelector(`[id^="acc_name_"]`)?.value?.trim();
+        const pctEl = row.querySelector(`[id^="acc_pct_"]`);
+        const lockEl = row.querySelector(`[id^="acc_lock_"]`);
+        if(name && pctEl){
+          const pct = parseFloat(pctEl.value||'0') || 0;
+          const locked = !!(lockEl && lockEl.checked);
+          accounts.push({name, pct, locked});
+        }
+      });
+      return accounts;
+    }
+    function writeAccounts(accounts){
+      accounts.forEach((acc, i) => {
+        const pctEl = document.getElementById(`acc_pct_${i}`);
+        const nameEl = document.getElementById(`acc_name_${i}`);
+        const lockEl = document.getElementById(`acc_lock_${i}`);
+        if(pctEl){ pctEl.value = isFinite(acc.pct) ? Number(acc.pct).toFixed(2) : ''; }
+        if(nameEl && acc.name){ nameEl.value = acc.name; }
+        if(lockEl){ lockEl.checked = !!acc.locked; }
+      });
+      saveSplitConfig(accounts);
+    }
+    function sum(arr,key){ return arr.reduce((t,o)=>t+(parseFloat(o[key])||0),0); }
+    function autoDistribute(){
+      if(!currentUser){ alert('Please log in first.'); return; }
+      const accs = readAccounts();
+      if(!accs.length){ alert('Build account fields first.'); return; }
+      const lockedTotal = sum(accs.filter(a=>a.locked),'pct');
+      if(lockedTotal>100){ alert('Locked percentages exceed 100%. Reduce them.'); return; }
+      const remaining = 100 - lockedTotal;
+      const free = accs.filter(a=>!a.locked);
+      const share = free.length ? remaining / free.length : 0;
+      const updated = accs.map(a => a.locked ? a : ({...a, pct: share}));
+      writeAccounts(updated);
+      renderSplitTable(updated);
+    }
+    function normalizePercents(){
+      const accs = readAccounts();
+      const total = sum(accs,'pct');
+      if(total<=0){ alert('Enter some percentages first.'); return; }
+      const updated = accs.map(a => ({...a, pct: (a.pct/total)*100 }));
+      writeAccounts(updated);
+      renderSplitTable(updated);
+    }
+    function renderSplitTable(accs){
+      if(savingsAmount<=0){ document.getElementById('splitResult').innerHTML = `<div class="hint">Calculate savings first to see dollar amounts.</div>`; saveSplitConfig(accs); return; }
+      let html = `<table><tr><th>Account</th><th class="right">% share</th><th class="right">Amount ($)</th></tr>`;
+      let allocated = 0;
+      accs.forEach((a) => {
+        const amt = Math.floor((savingsAmount * a.pct/100) * 100)/100;
+        allocated += amt;
+        html += `<tr><td>${a.name}</td><td class="right">${fmt(a.pct)}</td><td class="right">${fmt(amt)}</td></tr>`;
+      });
+      const remainder = Math.round((savingsAmount - allocated) * 100)/100;
+      if(Math.abs(remainder) >= 0.01 && accs.length){
+        html += `<tr><td colspan="2" class="right">Remainder (due to rounding)</td><td class="right">${fmt(remainder)}</td></tr>`;
+      }
+      html += `<tr><th>Total saved</th><th></th><th class="right">${fmt(savingsAmount)}</th></tr></table>`;
+      document.getElementById('splitResult').innerHTML = html;
+      saveSplitConfig(accs);
+    }
+    function saveSplitConfig(accs){
+      if(!currentUser) return;
+      const accounts = accs || readAccounts();
+      store.set(KEYS.split(currentUser.email), {accounts});
+    }
+    document.getElementById('projectBtn').addEventListener('click', () => {
+      if(!currentUser){ alert('Please log in first.'); return; }
+      if(savingsAmount<=0){ alert('Calculate your savings first.'); return; }
+      const goal = parseFloat(document.getElementById('goalAmount').value);
+      if(isNaN(goal) || goal<=0){ alert('Enter a valid goal amount.'); return; }
+      const monthsNeeded = Math.ceil(goal / savingsAmount);
+      const now = new Date();
+      const eta = new Date(now.getFullYear(), now.getMonth() + monthsNeeded, now.getDate());
+      document.getElementById('goalResult').innerHTML = `At $${fmt(savingsAmount)} per month, you'll reach $${fmt(goal)} in about <strong>${monthsNeeded}</strong> month(s) — around <strong>${eta.toDateString()}</strong>.`;
+      store.set(KEYS.goal(currentUser.email), {goal});
+    });
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      if(!currentUser){ localStorage.clear(); location.reload(); return; }
+      localStorage.removeItem(KEYS.earnings(currentUser.email));
+      localStorage.removeItem(KEYS.savings(currentUser.email));
+      localStorage.removeItem(KEYS.split(currentUser.email));
+      localStorage.removeItem(KEYS.goal(currentUser.email));
+      document.getElementById('earningsResult').innerHTML = '';
+      document.getElementById('savingsResult').innerHTML = '';
+      document.getElementById('splitResult').innerHTML = '';
+      document.getElementById('goalResult').innerHTML = '';
+      savingsAmount = 0; netEarnings = 0;
+      alert('Saved data cleared for this user.');
+    });
+    function hydrateFromStorage(){
+      if(!currentUser) return;
+      const E = store.get(KEYS.earnings(currentUser.email));
+      const S = store.get(KEYS.savings(currentUser.email));
+      const P = store.get(KEYS.split(currentUser.email));
+      const G = store.get(KEYS.goal(currentUser.email));
+      if(E){
+        document.getElementById('hours').value = E.hours; document.getElementById('rate').value = E.rate; netEarnings = E.netEarnings;
+        document.getElementById('earningsResult').innerHTML = `
+          <table>
+            <tr><th>Earnings</th><th class="right">Amount ($)</th></tr>
+            <tr><td>Gross</td><td class="right">${fmt(E.gross)}</td></tr>
+            <tr><td>Federal</td><td class="right">-${fmt(E.federal)}</td></tr>
+            <tr><td>Social Security</td><td class="right">-${fmt(E.ss)}</td></tr>
+            <tr><td>Medicare</td><td class="right">-${fmt(E.medicare)}</td></tr>
+            <tr><td>ETT</td><td class="right">-${fmt(E.ett)}</td></tr>
+            <tr><td>CA Income Tax</td><td class="right">-${fmt(E.ca)}</td></tr>
+            <tr><th>Net</th><th class="right">${fmt(E.netEarnings)}</th></tr>
+          </table>`;
+      }
+      if(S){
+        document.getElementById('savePct').value = S.pct; savingsAmount = S.savingsAmount;
+        document.getElementById('savingsResult').innerHTML = `
+          <table>
+            <tr><th>Item</th><th class="right">Amount ($)</th></tr>
+            <tr><td>Saved (${S.pct}%)</td><td class="right success">${fmt(S.savingsAmount)}</td></tr>
+            <tr><td>Remaining</td><td class="right">${fmt(S.remaining)}</td></tr>
+          </table>`;
+      }
+      if(P){
+        document.getElementById('numAccounts').value = P.accounts?.length || 3;
+        buildAccountFields();
+        writeAccounts(P.accounts || []);
+        renderSplitTable(P.accounts || []);
+      }
+      if(G){
+        document.getElementById('goalAmount').value = G.goal;
+        document.getElementById('initialGoal').value = G.goal;
+        document.getElementById('goalPrompt').classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>
